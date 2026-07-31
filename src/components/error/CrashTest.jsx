@@ -8,7 +8,7 @@ function CrashTest({ shouldCrash }) {
   return (
     <div className="crash-box">
       <p>
-        Crash Test Component Loaded Successfully.
+        Medicare Clinic © 2026 Built with React.
       </p>
     </div>
   );
