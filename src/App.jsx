@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import "./index.css";
 
 import Header from "./components/layout/Header";
@@ -7,79 +6,114 @@ import PageContainer from "./components/layout/PageContainer";
 
 import StatGrid from "./components/stats/StatGrid";
 import DoctorPanel from "./components/doctors/DoctorPanel";
+import AppointmentPanel from "./components/appointments/AppointmentPanel";
+
+import ErrorBoundary from "./components/error/ErrorBoundary";
+import CrashTest from "./components/error/CrashTest";
 
 import { doctors as initialDoctors } from "./data/doctors";
 import { appointments as initialAppointments } from "./data/appointments";
 
-import AppointmentPanel from "./components/appointments/AppointmentPanel";
-
 // REQ-3
-// Lifting State Up
-// selectedDoctor & appointments state are shared
-// between Doctor Module and Appointment Module.
+// Lifting state up:
+// selectedDoctor & appointments live in App
+// and are shared between DoctorPanel and AppointmentPanel.
 
 function App() {
+
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  const [appointments, setAppointments] = useState(
-    initialAppointments
-  );
+  const [appointments, setAppointments] = useState(initialAppointments);
 
+  const [shouldCrash, setShouldCrash] = useState(false);
+
+  // REQ-4
+  // Callback prop
   const handleDoctorSelect = (doctor) => {
     setSelectedDoctor(doctor);
   };
 
+  // REQ-10
+  // Form Submit Handler
   const handleAddAppointment = (formData) => {
-  const selected = initialDoctors.find(
-    (doctor) => doctor.id === Number(formData.doctorId)
-  );
 
-  const newAppointment = {
-    id: Date.now(),
-    patientName: formData.patientName,
-    phone: formData.phone,
-    doctorId: selected.id,
-    doctorName: selected.name,
-    department: selected.department,
-    date: formData.date,
-    time: formData.time,
-    note: formData.note,
-    status: "Pending",
+    try {
+
+      const doctor = initialDoctors.find(
+        (d) => d.id === Number(formData.doctorId)
+      );
+
+      if (!doctor) return;
+
+      const newAppointment = {
+        id: Date.now(),
+        patientName: formData.patientName,
+        phone: formData.phone,
+        doctorId: doctor.id,
+        doctorName: doctor.name,
+        department: doctor.department,
+        date: formData.date,
+        time: formData.time,
+        note: formData.note,
+        status: "Pending",
+      };
+
+      setAppointments((prev) => [
+        newAppointment,
+        ...prev,
+      ]);
+
+      setSelectedDoctor(null);
+
+    } catch (error) {
+      console.error(error);
+      alert("Something went wrong.");
+    }
+
   };
 
-  setAppointments((prev) => [
-    newAppointment,
-    ...prev,
-  ]);
+  // REQ-4
+  // Callback Prop
+  const handleStatusChange = (id, status) => {
 
-  setSelectedDoctor(null);
-};
+    setAppointments((prev) =>
+      prev.map((appointment) =>
+        appointment.id === id
+          ? {
+              ...appointment,
+              status,
+            }
+          : appointment
+      )
+    );
 
-const handleCompleteAppointment = (id) => {
-  setAppointments((prev) =>
-    prev.map((appointment) =>
-      appointment.id === id
-        ? {
-            ...appointment,
-            status: "Completed",
-          }
-        : appointment
-    )
-  );
-};
+  };
 
-const handleDeleteAppointment = (id) => {
-  setAppointments((prev) =>
-    prev.filter(
-      (appointment) =>
-        appointment.id !== id
-    )
-  );
-};
+  // REQ-10
+  const handleDeleteAppointment = (id) => {
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this appointment?"
+    );
+
+    if (!confirmDelete) return;
+
+    setAppointments((prev) =>
+      prev.filter(
+        (appointment) =>
+          appointment.id !== id
+      )
+    );
+
+  };
 
   return (
+
     <PageContainer>
-      <Header />
+
+      <Header
+        onCrash={() => setShouldCrash(true)}
+      />
 
       <StatGrid
         doctors={initialDoctors}
@@ -87,30 +121,32 @@ const handleDeleteAppointment = (id) => {
       />
 
       <div className="dashboard-layout">
-        {/* Left Side */}
+
         <DoctorPanel
           doctors={initialDoctors}
           selectedDoctor={selectedDoctor}
           onSelectDoctor={handleDoctorSelect}
         />
 
-        {/* Right Side */}
-        <AppointmentPanel
-            doctors={initialDoctors}
-            selectedDoctor={selectedDoctor}
-            onAddAppointment={handleAddAppointment}
-        />
+        <ErrorBoundary>
 
-        <AppointmentPanel
+          <AppointmentPanel
             doctors={initialDoctors}
-            selectedDoctor={selectedDoctor}
             appointments={appointments}
+            selectedDoctor={selectedDoctor}
             onAddAppointment={handleAddAppointment}
-            onComplete={handleCompleteAppointment}
+            onStatusChange={handleStatusChange}
             onDelete={handleDeleteAppointment}
-        />
+          />
+
+        </ErrorBoundary>
+
       </div>
+
+      <CrashTest shouldCrash={shouldCrash} />
+
     </PageContainer>
+
   );
 }
 

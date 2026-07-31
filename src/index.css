@@ -634,3 +634,30 @@ display:flex;
 gap:8px;
 flex-wrap:wrap;
 }
+
+
+
+.error-container{
+padding:30px;
+text-align:center;
+border:1px solid #ef4444;
+border-radius:10px;
+background:#fef2f2;
+margin-top:20px;
+}
+
+.error-message{
+background:#fff;
+padding:10px;
+border-radius:6px;
+margin:15px 0;
+overflow:auto;
+color:#dc2626;
+}
+
+.crash-box{
+margin-top:20px;
+padding:20px;
+border:1px dashed #d1d5db;
+border-radius:8px;
+}
