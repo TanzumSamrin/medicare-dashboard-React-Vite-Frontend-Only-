@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 
 import "./index.css";
@@ -9,21 +8,23 @@ import PageContainer from "./components/layout/PageContainer";
 import StatGrid from "./components/stats/StatGrid";
 import DoctorPanel from "./components/doctors/DoctorPanel";
 
-import { doctors as doctorData } from "./data/doctors";
-import { appointments as appointmentData } from "./data/appointments";
+import { doctors as initialDoctors } from "./data/doctors";
+import { appointments as initialAppointments } from "./data/appointments";
 
-// [REQ-3] Lifting state up:
-// selectedDoctorId and appointments state live in App
-// and are shared with child components.
+// REQ-3
+// Lifting State Up
+// selectedDoctor & appointments state are shared
+// between Doctor Module and Appointment Module.
 
 function App() {
-  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  const [appointments, setAppointments] =
-    useState(appointmentData);
+  const [appointments, setAppointments] = useState(
+    initialAppointments
+  );
 
-  const handleSelectDoctor = (doctorId) => {
-    setSelectedDoctorId(doctorId);
+  const handleDoctorSelect = (doctor) => {
+    setSelectedDoctor(doctor);
   };
 
   return (
@@ -31,23 +32,47 @@ function App() {
       <Header />
 
       <StatGrid
-        doctors={doctorData}
+        doctors={initialDoctors}
         appointments={appointments}
       />
 
-      <div className="main-grid">
+      <div className="dashboard-layout">
+        {/* Left Side */}
         <DoctorPanel
-          doctors={doctorData}
-          selectedDoctorId={selectedDoctorId}
-          onSelectDoctor={handleSelectDoctor}
+          doctors={initialDoctors}
+          selectedDoctor={selectedDoctor}
+          onSelectDoctor={handleDoctorSelect}
         />
 
-        <div>
-          <h2>Appointment Form</h2>
+        {/* Right Side */}
+        <div className="placeholder-panel">
+          <h2>Appointment Module</h2>
+
           <p>
-            Appointment Form will be added in the next
-            step.
+            Appointment Form will be connected in
+            STEP-6.
           </p>
+
+          {selectedDoctor && (
+            <div className="selected-doctor-preview">
+              <h3>Selected Doctor</h3>
+
+              <p>
+                <strong>Name:</strong>{" "}
+                {selectedDoctor.name}
+              </p>
+
+              <p>
+                <strong>Department:</strong>{" "}
+                {selectedDoctor.department}
+              </p>
+
+              <p>
+                <strong>Fee:</strong> ৳
+                {selectedDoctor.visitingFee}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </PageContainer>

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import Card from "../ui/Card";
 import Button from "../ui/Button";
 import FormField from "./FormField";
 
@@ -13,36 +12,41 @@ import {
   validateNote,
 } from "../../utils/validators";
 
+const initialForm = {
+  patientName: "",
+  phone: "",
+  doctorId: "",
+  date: "",
+  time: "",
+  note: "",
+};
+
 function AppointmentForm({
   doctors,
-  selectedDoctorId,
-  onSubmit,
+  selectedDoctor,
+  onAddAppointment,
 }) {
-  const [formData, setFormData] = useState({
-    patientName: "",
-    phone: "",
-    doctorId: "",
-    date: "",
-    time: "",
-    note: "",
-  });
+  const [formData, setFormData] =
+    useState(initialForm);
 
   const [errors, setErrors] = useState({});
 
-  // Auto select doctor from Doctor Panel
+  // Auto select doctor
   useEffect(() => {
-    if (selectedDoctorId) {
+    if (selectedDoctor) {
       setFormData((prev) => ({
         ...prev,
-        doctorId: String(selectedDoctorId),
+        doctorId: String(selectedDoctor.id),
       }));
     }
-  }, [selectedDoctorId]);
+  }, [selectedDoctor]);
 
-  const doctorOptions = doctors.map((doctor) => ({
-  value: String(doctor.id),
-  label: doctor.name,
-}));
+  const doctorOptions = doctors
+    .filter((doctor) => doctor.available)
+    .map((doctor) => ({
+      value: String(doctor.id),
+      label: doctor.name,
+    }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,13 +55,24 @@ function AppointmentForm({
       ...prev,
       [name]: value,
     }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
   };
 
   const validateForm = () => {
     const newErrors = {
-      patientName: validatePatientName(formData.patientName),
+      patientName: validatePatientName(
+        formData.patientName
+      ),
       phone: validatePhone(formData.phone),
-      doctorId: validateDoctor(formData.doctorId),
+      doctorId: validateDoctor(
+        formData.doctorId
+      ),
       date: validateDate(formData.date),
       time: validateTime(formData.time),
       note: validateNote(formData.note),
@@ -66,7 +81,7 @@ function AppointmentForm({
     setErrors(newErrors);
 
     return !Object.values(newErrors).some(
-      (error) => error
+      Boolean
     );
   };
 
@@ -75,78 +90,80 @@ function AppointmentForm({
 
     if (!validateForm()) return;
 
-    onSubmit(formData);
+    onAddAppointment(formData);
+
+    setFormData(initialForm);
+
+    setErrors({});
   };
 
   return (
-    <Card title="Book Appointment">
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
 
-        <FormField
-          label="Patient Name"
-          name="patientName"
-          value={formData.patientName}
-          onChange={handleChange}
-          error={errors.patientName}
-          required
-        />
+      <FormField
+        label="Patient Name"
+        name="patientName"
+        value={formData.patientName}
+        onChange={handleChange}
+        error={errors.patientName}
+        required
+      />
 
-        <FormField
-          label="Phone Number"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          error={errors.phone}
-          required
-        />
+      <FormField
+        label="Phone Number"
+        name="phone"
+        value={formData.phone}
+        onChange={handleChange}
+        error={errors.phone}
+        required
+      />
 
-        <FormField
-          label="Doctor"
-          name="doctorId"
-          type="select"
-          value={formData.doctorId}
-          onChange={handleChange}
-          options={doctorOptions}
-          error={errors.doctorId}
-          required
-        />
+      <FormField
+        label="Doctor"
+        name="doctorId"
+        type="select"
+        value={formData.doctorId}
+        options={doctorOptions}
+        onChange={handleChange}
+        error={errors.doctorId}
+        required
+      />
 
-        <FormField
-          label="Appointment Date"
-          name="date"
-          type="date"
-          value={formData.date}
-          onChange={handleChange}
-          error={errors.date}
-          required
-        />
+      <FormField
+        label="Appointment Date"
+        name="date"
+        type="date"
+        value={formData.date}
+        onChange={handleChange}
+        error={errors.date}
+        required
+      />
 
-        <FormField
-          label="Appointment Time"
-          name="time"
-          type="time"
-          value={formData.time}
-          onChange={handleChange}
-          error={errors.time}
-          required
-        />
+      <FormField
+        label="Appointment Time"
+        name="time"
+        type="time"
+        value={formData.time}
+        onChange={handleChange}
+        error={errors.time}
+        required
+      />
 
-        <FormField
-          label="Notes"
-          name="note"
-          type="textarea"
-          value={formData.note}
-          onChange={handleChange}
-          error={errors.note}
-          placeholder="Write additional notes..."
-        />
+      <FormField
+        label="Notes"
+        name="note"
+        type="textarea"
+        value={formData.note}
+        onChange={handleChange}
+        error={errors.note}
+        placeholder="Optional"
+      />
 
-        <Button type="submit">
-          Book Appointment
-        </Button>
+      <Button type="submit">
+        Book Appointment
+      </Button>
 
-      </form>
-    </Card>
+    </form>
   );
 }
 
