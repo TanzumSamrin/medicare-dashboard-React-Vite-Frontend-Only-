@@ -598,3 +598,39 @@ Responsive
 }
 
 
+.appointment-table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+.appointment-table th,
+.appointment-table td{
+padding:12px;
+border-bottom:1px solid var(--border);
+text-align:left;
+}
+
+.action-buttons{
+display:flex;
+gap:8px;
+}
+
+.appointment-table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+.appointment-table th,
+.appointment-table td{
+padding:12px;
+border-bottom:1px solid #e5e7eb;
+text-align:left;
+}
+
+.action-buttons{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
