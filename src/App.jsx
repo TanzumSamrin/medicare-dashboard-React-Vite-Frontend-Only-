@@ -137,6 +137,7 @@ function App() {
             onAddAppointment={handleAddAppointment}
             onStatusChange={handleStatusChange}
             onDelete={handleDeleteAppointment}
+            onResetDoctor={() => setSelectedDoctor(null)}
           />
 
         </ErrorBoundary>

@@ -7,30 +7,28 @@ function AppointmentPanel({
   selectedDoctor,
   appointments,
   onAddAppointment,
-  onComplete,
+  onStatusChange,
   onDelete,
+  onResetDoctor,
 }) {
   return (
-        <>
-    <Card title="Book Appointment">
+    <>
+      <Card title="Book New Appointment">
         <AppointmentForm
-        doctors={doctors}
-        selectedDoctor={selectedDoctor}
-        onAddAppointment={onAddAppointment}
+          doctors={doctors}
+          selectedDoctor={selectedDoctor}
+          onAddAppointment={onAddAppointment}
+          onResetDoctor={onResetDoctor}
         />
-    </Card>
+      </Card>
 
-    <AppointmentList
-        appointments={appointments}
-        onComplete={onComplete}
-        onDelete={onDelete}
-    />
-
-    <AppointmentList
-        appointments={appointments}
-        onComplete={onComplete}
-        onDelete={onDelete}
-    />
+      <div style={{ marginTop: "24px" }}>
+        <AppointmentList
+          appointments={appointments}
+          onStatusChange={onStatusChange}
+          onDelete={onDelete}
+        />
+      </div>
     </>
   );
 }

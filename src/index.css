@@ -1,21 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 /* ===========================
-   Global Reset
+   Reset
 =========================== */
-
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 /* ===========================
-   Root Variables
+   Design Tokens
 =========================== */
-
 :root {
-  /* Colors */
   --page-bg: #f1f5f9;
   --surface: #ffffff;
   --border: #e2e8f0;
@@ -40,29 +39,28 @@
 
   --danger: #dc2626;
 
-  /* Radius */
   --radius-card: 12px;
   --radius-input: 8px;
   --radius-pill: 999px;
 
-  /* Shadow */
   --shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-hover: 0 4px 12px rgba(15, 118, 110, 0.12);
 }
 
 /* ===========================
-   Body
+   Base
 =========================== */
-
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--page-bg);
-  color: var(--text-primary);
+html {
   font-size: 14px;
 }
 
-/* ===========================
-   Common
-=========================== */
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--page-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+  min-height: 100vh;
+}
 
 button,
 input,
@@ -92,48 +90,27 @@ ul {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 /* ===========================
-   Temporary App Style
-=========================== */
-
-.app {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
-}
-
-.app h1 {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.app p {
-  color: var(--text-muted);
-}
-
-
-/* ====================================
    Page Container
-==================================== */
-
+=========================== */
 .page-container {
   max-width: 1280px;
-  margin: 40px auto;
-  padding: 0 20px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
 }
 
-/* ====================================
+/* ===========================
    Header
-==================================== */
-
+=========================== */
 .header {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow);
-  padding: 20px;
+  padding: 16px 20px;
   margin-bottom: 24px;
 }
 
@@ -141,26 +118,50 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--primary);
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
 }
 
 .header-left h1 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
 .header-left p {
+  font-size: 13px;
   color: var(--text-muted);
-  font-size: 14px;
+  margin-top: 2px;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-
-/* ===================================
+/* ===========================
    Card
-=================================== */
-
+=========================== */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -173,51 +174,88 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  gap: 12px;
 }
 
 .card-title {
   font-size: 16px;
   font-weight: 600;
+  color: var(--text-primary);
 }
 
-/* ===================================
-   Button
-=================================== */
+.card-action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+
+/* ===========================
+   Button
+=========================== */
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: none;
   border-radius: var(--radius-input);
   padding: 10px 18px;
   font-size: 14px;
   font-weight: 500;
-  transition: 0.3s;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: #fff;
 }
 
-.btn-primary:hover {
-  opacity: .9;
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #fef2f2;
 }
 
 .btn:disabled {
-  opacity: .5;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* ===================================
+/* ===========================
    Badge
-=================================== */
-
+=========================== */
 .badge {
-  display: inline-block;
-  padding: 6px 12px;
+  display:
+inline-block;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
   font-size: 12px;
   font-weight: 600;
+  line-height: 1.4;
 }
 
 .badge-pending {
@@ -240,26 +278,29 @@ a {
   color: var(--cancelled);
 }
 
-/* ===================================
+/* ===========================
    Empty State
-=================================== */
-
+=========================== */
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: 48px 20px;
   color: var(--text-muted);
 }
 
 .empty-state h3 {
-  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text-primary);
+  margin-bottom: 8px;
 }
 
+.empty-state p {
+  font-size: 14px;
+}
 
-/* ===================================
-   Stats
-=================================== */
-
+/* ===========================
+   Stat Grid
+=========================== */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -280,384 +321,355 @@ a {
   text-transform: uppercase;
   font-size: 13px;
   font-weight: 500;
-  margin-bottom: 10px;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
 }
 
 .stat-value {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
-}
-
-
-/* ===================================
-   Doctor Grid
-=================================== */
-
-.doctor-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.doctor-grid .card p {
-  margin-bottom: 8px;
-}
-
-.doctor-grid .btn {
-  width: 100%;
-}
-
-
-/* ==========================================
-   Main Grid
-========================================== */
-
-.main-grid {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  gap: 24px;
-  margin-top: 24px;
-}
-
-/* ==========================================
-   Doctor Filter
-========================================== */
-
-.search-input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-input);
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-
-.search-input:focus {
-  outline: 2px solid var(--primary);
-}
-
-.filter-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.chip {
-  background: white;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  border-radius: 999px;
-  padding: 8px 14px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.active-chip {
-  background: var(--primary);
-  color: white;
-}
-
-/* ==========================================
-   Doctor Card
-========================================== */
-
-.doctor-grid {
-  display: grid;
-  gap: 16px;
-}
-
-.doctor-card {
-  transition: .25s;
-}
-
-.doctor-card:hover {
-  transform: translateY(-2px);
-}
-
-.doctor-card .card {
-  transition: .25s;
-}
-
-.doctor-card:hover .card {
-  border-color: var(--primary);
-  box-shadow: 0 4px 10px rgba(15, 118, 110, .15);
-}
-
-.doctor-selected .card {
-  background: var(--primary-soft);
-  border-left: 4px solid var(--primary);
-}
-
-/* ==========================================
-   Responsive
-========================================== */
-
-@media (max-width:1023px){
-
-.main-grid{
-grid-template-columns:1fr;
-}
-
-}
-
-@media (max-width:640px){
-
-.filter-chips{
-flex-direction:column;
-}
-
-}
-
-
-/* ==========================================
-   Form
-========================================== */
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.required {
-  color: var(--danger);
-  margin-left: 4px;
-}
-
-.form-control {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-input);
-  font-size: 14px;
-  background: #fff;
-  transition: border-color 0.2s ease;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-textarea.form-control {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.input-error {
-  border-color: var(--danger);
-}
-
-.error-text {
-  display: block;
-  margin-top: 6px;
-  font-size: 12px;
-  color: var(--danger);
+  line-height: 1.2;
 }
 
 /* ===========================
-Doctor List
+   Dashboard Layout
 =========================== */
-
-.doctor-list{
-display:grid;
-gap:18px;
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
-.doctor-card{
-transition:.25s;
-}
-
-.doctor-card-selected .card{
-border:2px solid var(--primary);
-background:var(--primary-soft);
-}
-
-.doctor-info{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:18px;
-}
-
-.doctor-info strong{
-font-size:13px;
-}
-
-.doctor-card button{
-width:100%;
-}
-
-
-/* =====================================
-Doctor Filter
-===================================== */
-
+/* ===========================
+   Doctor Filter
+=========================== */
 .doctor-filter {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .search-input {
   width: 100%;
-  padding: 12px;
+  padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-input);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   font-size: 14px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .search-input:focus {
-  outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15);
 }
 
 .department-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* Secondary Button */
-
-.btn-secondary {
-  background: white;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
+.department-list .btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  border-radius: var(--radius-pill);
 }
 
-.btn-secondary:hover {
-  background: var(--primary-soft);
-}
-
-
-
-/* =====================================
-Dashboard Layout
-===================================== */
-
-.dashboard-layout {
+/* ===========================
+   Doctor List & Card
+=========================== */
+.doctor-list {
   display: grid;
-  grid-template-columns: 42% 58%;
-  gap: 24px;
-  margin-top: 24px;
+  gap: 12px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-/* =====================================
-Placeholder Panel
-===================================== */
-
-.placeholder-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
-  padding: 20px;
+.doctor-card {
+  transition: transform 0.2s ease;
 }
 
-.placeholder-panel h2 {
-  margin-bottom: 12px;
+.doctor-card .card {
+  padding: 14px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.placeholder-panel p {
-  color: var(--text-muted);
+.doctor-card:hover .card {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-hover);
 }
 
-.selected-doctor-preview {
-  margin-top: 24px;
-  padding: 16px;
-  border-radius: var(--radius-input);
+.doctor-card-selected .card {
   background: var(--primary-soft);
-  border-left: 4px solid var(--primary);
+  border-color: var(--primary);
+  border-left: 3px solid var(--primary);
 }
 
-.selected-doctor-preview h3 {
+.doctor-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
   margin-bottom: 12px;
+  font-size: 13px;
 }
 
-.selected-doctor-preview p {
-  margin-bottom: 8px;
+.doctor-info strong {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.doctor-info p {
   color: var(--text-primary);
 }
 
-/* =====================================
-Responsive
-===================================== */
+.doctor-card .btn {
+  width: 100%;
+  padding: 8px 14px;
+  font-size: 13px;
+}
 
-@media (max-width: 992px) {
+/* ===========================
+   Form
+=========================== */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.required {
+  color: var(--danger);
+  margin-left: 2px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  font-size: 14px;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.input-error {
+  border-color: var(--danger) !important;
+}
+
+.error-text {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.status-select {
+  min-width: 120px;
+padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* ===========================
+   Appointment Table
+=========================== */
+.appointment-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.appointment-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.appointment-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.appointment-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.appointment-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ===========================
+   Error / Crash
+=========================== */
+.error-container {
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-card);
+  background: #fef2f2;
+}
+
+.error-container h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--danger);
+}
+
+.error-container p {
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.error-message {
+  background: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 12px 0;
+  overflow: auto;
+  color: var(--danger);
+  font-size: 13px;
+  text-align: left;
+  border: 1px solid #fecaca;
+}
+
+.crash-box {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-input);
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ===========================
+   Success Message
+=========================== */
+.success-message {
+  background: var(--completed-bg);
+  color: var(--completed);
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius-input);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===========================
+   Filter Chips (status)
+=========================== */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.chip.active,
+.active-chip {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ===========================
+   Responsive
+=========================== */
+@media (max-width: 1023px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .dashboard-layout {
     grid-template-columns: 1fr;
   }
+
+  .doctor-list {
+    max-height: none;
+  }
 }
 
+@media (max-width: 639px) {
+  .page-container {
+    padding: 16px 12px 32px;
+  }
 
-.appointment-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+  .stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
 
-.appointment-table th,
-.appointment-table td{
-padding:12px;
-border-bottom:1px solid var(--border);
-text-align:left;
-}
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.action-buttons{
-display:flex;
-gap:8px;
-}
+  .doctor-info {
+    grid-template-columns: 1fr;
+  }
 
-.appointment-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-}
+  .appointment-table {
+    display: block;
+    overflow-x: auto;
+  }
 
-.appointment-table th,
-.appointment-table td{
-padding:12px;
-border-bottom:1px solid #e5e7eb;
-text-align:left;
-}
-
-.action-buttons{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
-
-
-
-.error-container{
-padding:30px;
-text-align:center;
-border:1px solid #ef4444;
-border-radius:10px;
-background:#fef2f2;
-margin-top:20px;
-}
-
-.error-message{
-background:#fff;
-padding:10px;
-border-radius:6px;
-margin:15px 0;
-overflow:auto;
-color:#dc2626;
-}
-
-.crash-box{
-margin-top:20px;
-padding:20px;
-border:1px dashed #d1d5db;
-border-radius:8px;
+  .stat-value {
+    font-size: 24px;
+  }
 }

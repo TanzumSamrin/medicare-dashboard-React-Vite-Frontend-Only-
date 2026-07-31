@@ -1,22 +1,16 @@
-
 import Card from "../ui/Card";
 import EmptyState from "../ui/EmptyState";
 import AppointmentRow from "./AppointmentRow";
 
-// REQ-1
-// Rendering using map()
+// [REQ-1] Rendering using map() with stable key
 
-function AppointmentList({
-  appointments,
-  onComplete,
-  onDelete,
-}) {
+function AppointmentList({ appointments, onStatusChange, onDelete }) {
   if (!appointments.length) {
     return (
       <Card title="Appointments">
         <EmptyState
-          title="No Appointments"
-          message="Book your first appointment."
+          title="No appointments yet"
+          message="Book the first one from the form."
         />
       </Card>
     );
@@ -27,13 +21,12 @@ function AppointmentList({
       <table className="appointment-table">
         <thead>
           <tr>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Department</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th>PATIENT</th>
+            <th>DOCTOR</th>
+            <th>DATE & TIME</th>
+            <th>STATUS</th>
+            <th>CHANGE</th>
+            <th>ACTION</th>
           </tr>
         </thead>
 
@@ -42,7 +35,7 @@ function AppointmentList({
             <AppointmentRow
               key={appointment.id}
               appointment={appointment}
-              onComplete={onComplete}
+              onStatusChange={onStatusChange}
               onDelete={onDelete}
             />
           ))}

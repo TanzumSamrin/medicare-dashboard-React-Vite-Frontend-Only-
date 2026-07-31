@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import Button from "../ui/Button";
-import FormField from "./FormField";
+import FormField from "./AppointmentFormField";
 
 import {
   validatePatientName,
@@ -25,13 +25,12 @@ function AppointmentForm({
   doctors,
   selectedDoctor,
   onAddAppointment,
+  onResetDoctor, // doctor selection clear করার জন্য
 }) {
-  const [formData, setFormData] =
-    useState(initialForm);
-
+  const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
 
-  // Auto select doctor
+  // Auto select doctor when card is clicked
   useEffect(() => {
     if (selectedDoctor) {
       setFormData((prev) => ({
@@ -45,7 +44,7 @@ function AppointmentForm({
     .filter((doctor) => doctor.available)
     .map((doctor) => ({
       value: String(doctor.id),
-      label: doctor.name,
+      label: `${doctor.name} — ${doctor.department}`,
     }));
 
   const handleChange = (e) => {
@@ -66,25 +65,19 @@ function AppointmentForm({
 
   const validateForm = () => {
     const newErrors = {
-      patientName: validatePatientName(
-        formData.patientName
-      ),
+      patientName: validatePatientName(formData.patientName),
       phone: validatePhone(formData.phone),
-      doctorId: validateDoctor(
-        formData.doctorId
-      ),
+      doctorId: validateDoctor(formData.doctorId),
       date: validateDate(formData.date),
       time: validateTime(formData.time),
       note: validateNote(formData.note),
     };
 
     setErrors(newErrors);
-
-    return !Object.values(newErrors).some(
-      Boolean
-    );
+    return !Object.values(newErrors).some(Boolean);
   };
 
+  // REQ-10: form submit handling
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -92,14 +85,22 @@ function AppointmentForm({
 
     onAddAppointment(formData);
 
+    // form reset after successful booking
     setFormData(initialForm);
-
     setErrors({});
+  };
+
+  // Reset button — form + doctor selection clear
+  const handleReset = () => {
+    setFormData(initialForm);
+    setErrors({});
+    if (onResetDoctor) {
+      onResetDoctor();
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-
       <FormField
         label="Patient Name"
         name="patientName"
@@ -116,6 +117,7 @@ function AppointmentForm({
         onChange={handleChange}
         error={errors.phone}
         required
+        placeholder="01XXXXXXXXX"
       />
 
       <FormField
@@ -130,7 +132,7 @@ function AppointmentForm({
       />
 
       <FormField
-        label="Appointment Date"
+        label="Date"
         name="date"
         type="date"
         value={formData.date}
@@ -140,7 +142,7 @@ function AppointmentForm({
       />
 
       <FormField
-        label="Appointment Time"
+        label="Time"
         name="time"
         type="time"
         value={formData.time}
@@ -150,19 +152,23 @@ function AppointmentForm({
       />
 
       <FormField
-        label="Notes"
+        label="Note"
         name="note"
         type="textarea"
         value={formData.note}
         onChange={handleChange}
         error={errors.note}
-        placeholder="Optional"
+        placeholder="Write a short note... (max 200 characters)"
       />
 
-      <Button type="submit">
-        Book Appointment
-      </Button>
+      {/* Book + Reset buttons */}
+      <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
+        <Button type="submit">Book Appointment</Button>
 
+        <Button type="button" variant="secondary" onClick={handleReset}>
+          Reset
+        </Button>
+      </div>
     </form>
   );
 }
