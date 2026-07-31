@@ -4,57 +4,69 @@ import Card from "../ui/Card";
 import DoctorFilter from "./DoctorFilter";
 import DoctorList from "./DoctorList";
 
-// [REQ-3] Lifting state up:
-// selectedDoctorId lives in App and is shared by
-// DoctorPanel -> DoctorList -> DoctorCard
-// and later AppointmentForm.
+// REQ-3
+// Lifting State Up
+// selectedDoctor state lives in App
+// DoctorPanel receives it via props
 
 function DoctorPanel({
   doctors,
-  selectedDoctorId,
+  selectedDoctor,
   onSelectDoctor,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
+
   const [selectedDepartment, setSelectedDepartment] =
     useState("All");
 
-  // Generate department chips dynamically
+  // Dynamic Department List
   const departments = useMemo(() => {
-    const uniqueDepartments = [
+    const unique = [
       ...new Set(
         doctors.map((doctor) => doctor.department)
       ),
     ];
 
-    return ["All", ...uniqueDepartments];
+    return ["All", ...unique];
   }, [doctors]);
 
-  // Search + Department Filter
-  const filteredDoctors = doctors.filter((doctor) => {
-    const matchesDepartment =
-      selectedDepartment === "All" ||
-      doctor.department === selectedDepartment;
+  // Search + Filter
+  const filteredDoctors = useMemo(() => {
+    return doctors.filter((doctor) => {
+      const departmentMatch =
+        selectedDepartment === "All" ||
+        doctor.department ===
+          selectedDepartment;
 
-    const matchesSearch = doctor.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+      const searchMatch = doctor.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    return matchesDepartment && matchesSearch;
-  });
+      return departmentMatch && searchMatch;
+    });
+  }, [
+    doctors,
+    searchTerm,
+    selectedDepartment,
+  ]);
 
   return (
     <Card title="Doctors">
       <DoctorFilter
-        departments={departments}
-        selectedDepartment={selectedDepartment}
         searchTerm={searchTerm}
-        onDepartmentChange={setSelectedDepartment}
+        selectedDepartment={
+          selectedDepartment
+        }
+        departments={departments}
         onSearchChange={setSearchTerm}
+        onDepartmentChange={
+          setSelectedDepartment
+        }
       />
 
       <DoctorList
         doctors={filteredDoctors}
-        selectedDoctorId={selectedDoctorId}
+        selectedDoctor={selectedDoctor}
         onSelectDoctor={onSelectDoctor}
       />
     </Card>

@@ -1,30 +1,32 @@
-
 import DoctorCard from "./DoctorCard";
 import EmptyState from "../ui/EmptyState";
 
-// [REQ-1] Render list using .map()
+// REQ-1
+// Rendering using map()
 
 function DoctorList({
   doctors,
-  selectedDoctorId,
+  selectedDoctor,
   onSelectDoctor,
 }) {
   if (doctors.length === 0) {
     return (
       <EmptyState
         title="No Doctors Found"
-        message="Try changing the search or department."
+        message="Try another search or department."
       />
     );
   }
 
   return (
-    <div className="doctor-grid">
+    <div className="doctor-list">
       {doctors.map((doctor) => (
         <DoctorCard
           key={doctor.id}
           doctor={doctor}
-          selectedDoctorId={selectedDoctorId}
+          isSelected={
+            selectedDoctor?.id === doctor.id
+          }
           onSelectDoctor={onSelectDoctor}
         />
       ))}

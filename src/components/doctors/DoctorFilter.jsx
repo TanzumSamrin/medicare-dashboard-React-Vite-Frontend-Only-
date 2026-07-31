@@ -1,41 +1,38 @@
+import Button from "../ui/Button";
+
 function DoctorFilter({
-  departments,
-  selectedDepartment,
   searchTerm,
-  onDepartmentChange,
+  selectedDepartment,
+  departments,
   onSearchChange,
+  onDepartmentChange,
 }) {
   return (
-    <>
+    <div className="doctor-filter">
       <input
-        className="search-input"
         type="text"
-        placeholder="Search doctor..."
+        className="search-input"
+        placeholder="Search doctor by name..."
         value={searchTerm}
-        onChange={(e) =>
-          onSearchChange(e.target.value)
-        }
+        onChange={(e) => onSearchChange(e.target.value)}
       />
 
-      <div className="filter-chips">
+      <div className="department-list">
         {departments.map((department) => (
-          <button
+          <Button
             key={department}
-            type="button"
-            className={
+            variant={
               selectedDepartment === department
-                ? "chip active-chip"
-                : "chip"
+                ? "primary"
+                : "secondary"
             }
-            onClick={() =>
-              onDepartmentChange(department)
-            }
+            onClick={() => onDepartmentChange(department)}
           >
             {department}
-          </button>
+          </Button>
         ))}
       </div>
-    </>
+    </div>
   );
 }
 

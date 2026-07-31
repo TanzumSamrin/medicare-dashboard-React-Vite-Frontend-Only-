@@ -2,19 +2,18 @@ import Card from "../ui/Card";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
 
-// [REQ-4] Passing callback prop
+// REQ-2: Ternary Operator
+// REQ-4: Callback Props
 
 function DoctorCard({
   doctor,
-  selectedDoctorId,
+  isSelected,
   onSelectDoctor,
 }) {
-  const isSelected = selectedDoctorId === doctor.id;
-
   return (
     <div
       className={`doctor-card ${
-        isSelected ? "doctor-selected" : ""
+        isSelected ? "doctor-card-selected" : ""
       }`}
     >
       <Card
@@ -31,26 +30,33 @@ function DoctorCard({
           )
         }
       >
-        <p>
-          <strong>Department:</strong>{" "}
-          {doctor.department}
-        </p>
+        <div className="doctor-info">
 
-        <p>
-          <strong>Specialization:</strong>{" "}
-          {doctor.specialization}
-        </p>
+          <p>
+            <strong>Department</strong>
+          </p>
 
-        <p>
-          <strong>Visiting Fee:</strong> ৳
-          {doctor.visitingFee}
-        </p>
+          <p>{doctor.department}</p>
+
+          <p>
+            <strong>Specialization</strong>
+          </p>
+
+          <p>{doctor.specialization}</p>
+
+          <p>
+            <strong>Visiting Fee</strong>
+          </p>
+
+          <p>৳ {doctor.visitingFee}</p>
+
+        </div>
 
         <Button
           disabled={!doctor.available}
-          onClick={() => onSelectDoctor(doctor.id)}
+          onClick={() => onSelectDoctor(doctor)}
         >
-          {isSelected ? "Selected" : "Select"}
+          {isSelected ? "Selected" : "Select Doctor"}
         </Button>
       </Card>
     </div>
