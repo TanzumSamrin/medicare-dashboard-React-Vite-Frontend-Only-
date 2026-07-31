@@ -1,7 +1,6 @@
 import Badge from "../ui/Badge";
-import Button from "../ui/Button";
 
-// [REQ-2] switch for status badge color
+// [REQ-2c] switch for status badge color
 function getStatusVariant(status) {
   switch (status) {
     case "Pending":
@@ -18,48 +17,37 @@ function getStatusVariant(status) {
 }
 
 function AppointmentRow({ appointment, onStatusChange, onDelete }) {
-  const handleStatusChange = (e) => {
-    onStatusChange(appointment.id, e.target.value);
-  };
-
   return (
     <tr>
+      {/* PATIENT */}
       <td>
-        <div>{appointment.patientName}</div>
-        <small style={{ color: "var(--text-muted)" }}>
-          {appointment.phone}
-        </small>
+        <div className="cell-primary">{appointment.patientName}</div>
+        <div className="cell-secondary">{appointment.phone}</div>
       </td>
 
+      {/* DOCTOR */}
       <td>
-        <div>{appointment.doctorName}</div>
-        <small style={{ color: "var(--text-muted)" }}>
-          {appointment.department}
-        </small>
+        <div className="cell-primary">{appointment.doctorName}</div>
+        <div className="cell-secondary">{appointment.department}</div>
       </td>
 
+      {/* DATE & TIME */}
       <td>
-        {appointment.date}
-        <br />
-        <small style={{ color: "var(--text-muted)" }}>
-          {appointment.time}
-        </small>
+        <div className="cell-primary">{appointment.date}</div>
+        <div className="cell-secondary">{appointment.time}</div>
       </td>
 
+      {/* STATUS + Change dropdown */}
       <td>
         <Badge variant={getStatusVariant(appointment.status)}>
           {appointment.status}
         </Badge>
-      </td>
-
-      <td>
-        {/* Status dropdown */}
         <select
-          className="form-control status-select"
+          className="status-change-select"
           value={appointment.status}
-          onChange={handleStatusChange}
-          style={{ minWidth: "130px", padding: "6px 10px" }}
+          onChange={(e) => onStatusChange(appointment.id, e.target.value)}
         >
+          <option value="Pending">Change</option>
           <option value="Pending">Pending</option>
           <option value="Confirmed">Confirmed</option>
           <option value="Completed">Completed</option>
@@ -67,13 +55,15 @@ function AppointmentRow({ appointment, onStatusChange, onDelete }) {
         </select>
       </td>
 
+      {/* ACTION */}
       <td>
-        <Button
-          variant="danger"
+        <button
+          type="button"
+          className="delete-link"
           onClick={() => onDelete(appointment.id)}
         >
           Delete
-        </Button>
+        </button>
       </td>
     </tr>
   );

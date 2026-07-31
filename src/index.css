@@ -231,7 +231,7 @@ a {
 .btn-danger {
   background: transparent;
   color: var(--danger);
-  border: 1px solid transparent;
+  border: 1.5px solid var(--danger);
   padding: 6px 12px;
   font-size: 13px;
 }
@@ -299,7 +299,7 @@ inline-block;
 }
 
 /* ===========================
-   Stat Grid
+   Stat Cards with Icons
 =========================== */
 .stat-grid {
   display: grid;
@@ -314,15 +314,26 @@ inline-block;
   border-radius: var(--radius-card);
   box-shadow: var(--shadow);
   padding: 20px;
+  position: relative;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
 }
 
 .stat-label {
   color: var(--text-muted);
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.04em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .stat-value {
@@ -332,6 +343,17 @@ inline-block;
   line-height: 1.2;
 }
 
+@media (max-width: 1023px) {
+  .stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ===========================
    Dashboard Layout
 =========================== */
@@ -493,7 +515,7 @@ padding: 6px 10px;
 /* ===========================
    Appointment Table
 =========================== */
-.appointment-table {
+/* .appointment-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
@@ -530,10 +552,10 @@ padding: 6px 10px;
 .appointment-table tbody tr:hover {
   background: #f8fafc;
   transition: background 0.3s ease;
-}
+} */
 
 /* Status color coding */
-.status-pending {
+/* .status-pending {
   color: #b45309;
   font-weight: 600;
   background: #fef3c7;
@@ -563,10 +585,10 @@ padding: 6px 10px;
   background: #fee2e2;
   padding: 4px 8px;
   border-radius: 4px;
-}
+} */
 
 /* Action buttons */
-.action-delete {
+/* .action-delete {
   color: #dc2626;
   font-weight: 600;
   cursor: pointer;
@@ -576,7 +598,150 @@ padding: 6px 10px;
 .action-delete:hover {
   color: #b91c1c;
   text-decoration: underline;
+} */
+
+
+
+
+
+
+/* ===========================
+   Appointment Panel
+=========================== */
+.appointment-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
+
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Filter chips */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  background: #fff;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* Table */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.appointment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appointment-table th {
+  text-align: left;
+  padding: 10px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.appointment-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.appointment-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.appointment-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.cell-primary {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.cell-secondary {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Status change select under badge */
+.status-change-select {
+  display: block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text-muted);
+  cursor: pointer;
+  min-width: 90px;
+}
+
+.status-change-select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* Delete link style */
+.delete-link {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.delete-link:hover {
+  text-decoration: underline;
+}
+
 
 
 

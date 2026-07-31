@@ -12,7 +12,7 @@ function AppointmentPanel({
   onResetDoctor,
 }) {
   return (
-    <>
+    <div className="appointment-panel">
       <Card title="Book New Appointment">
         <AppointmentForm
           doctors={doctors}
@@ -22,14 +22,14 @@ function AppointmentPanel({
         />
       </Card>
 
-      <div style={{ marginTop: "24px" }}>
+      <div className="appointments-list-wrap">
         <AppointmentList
           appointments={appointments}
           onStatusChange={onStatusChange}
           onDelete={onDelete}
         />
       </div>
-    </>
+    </div>
   );
 }
 
